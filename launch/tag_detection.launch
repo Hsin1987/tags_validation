@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<launch>
+  <!-- Parameters -->
+  <arg name="ns_tag_detection"  default="usb_cam"/>
+
+
+  <!-- Tag detector node -->
+  <node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector" output="screen" ns="$(arg ns_tag_detection)">
+  <!-- node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector" output="screen" ns="usb_cam" -->
+  <!-- node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector" output="screen" ns="camera_crop" -->
+
+    <!-- Select the tag family: 16h5, 25h7, 25h9, 36h9, or 36h11(default) -->
+    <!-- param name="tag_family" type="str" value="16h5" / -->
+    <param name="tag_family" type="str" value="36h11" />
+
+
+    <!-- Parameters -->
+    <param name="x_border"                  value="0" /> <!-- 300 -->
+    <param name="y_border"                  value="0" />  <!-- 10 -->
+    <param name="ROI_height"                value="300" /> <!--300 -->
+    <param name="ROI_width"                 value="300" /> <!-- 300 -->
+    <param name="ROI_height_scan"           value="480" /> <!-- 450 -->
+    <param name="ROI_width_scan"            value="640" /> <!-- 450 -->
+    <param name="scan_step_x"            value="0" /> <!-- 0, means the scan windows are not overlaied -->
+    <param name="scan_step_y"            value="0" /> <!-- 0, means the scan windows are not overlaied -->
+    <param name="resize_scale"              value="1.0" /> <!-- 1.0 -->
+    <param name="speed_filterRatio"         value="0.3" /> <!-- 0.3 -->
+    <param name="lightSense_Ker_halfSize"   value="10" /> <!-- 10 -->
+    <param name="average_light_level"       value="127" /> <!-- 127 -->
+
+
+
+    <!-- Enable projected optical measurements for more accurate tag transformations -->
+    <!-- This exists for backwards compatability and should be left true for new setups -->
+    <!-- param name="projected_optics" type="bool" value="true" / -->
+
+
+    <rosparam param="tag_descriptions">[
+      {id: 8, size: 0.0465},
+      {id: 140, size: 0.0465},
+      {id: 311, size: 0.0465},
+      {id: 583, size: 0.0465},
+      {id: 12, size: 0.0465},
+      {id: 32, size: 0.0465},
+      {id: 46, size: 0.0465},
+      {id: 51, size: 0.0465},
+      {id: 80, size: 0.0465},
+      {id: 129, size: 0.0465},
+      {id: 136, size: 0.0465}
+      ]
+    </rosparam>
+    <!-- remap from="image_rect" to="image_raw"/ -->
+  </node>
+</launch>

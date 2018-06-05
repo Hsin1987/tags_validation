@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Is going to show images -->
+  <arg name="is_image_view"  default="false"/>
+
+  <!-- Parameters -->
+  <arg name="ns_usb_cam"  default="usb_cam"/>
+  <arg name="camera_dev"  default="video2" />
+  <arg name="frame_rate"  default="10" />
+  
+
+
+  <node name="$(arg ns_usb_cam)" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device"    value="/dev/$(arg camera_dev)" />
+    <param name="framerate"       value="$(arg frame_rate)" />
+    <!-- 1280*720, 640*480, 640*360, 320*240, 320*180 -->
+    <param name="image_width"     value="640" />
+    <param name="image_height"    value="480" />
+    <param name="pixel_format"    value="yuyv" /> <!-- yuyv or mjpeg -->
+    <param name="camera_frame_id" value="$(arg ns_usb_cam)" />
+    <param name="camera_name"     value="usb_cam_IZONE_ver2_640_480" />
+    <param name="io_method"       value="mmap"/>
+  </node>
+
+ 
+    <!-- View images -->
+    <group if="$(arg is_image_view)">
+        <!-- Image view -->
+        <node name="image_view_$(arg ns_usb_cam)" pkg="image_view" type="image_view" respawn="false" output="screen">
+          <remap from="image" to="/$(arg ns_usb_cam)/image_raw"/>
+          <param name="autosize" value="true" />
+        </node>
+    </group>
+  
+
+</launch>
